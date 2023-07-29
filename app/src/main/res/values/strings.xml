@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CBEscanner</string>
+    <string name="lector_de_c_digo_de_barras">Lector de Código de Barras</string>
+    <string name="iniciar_sesi_n">Iniciar Sesión</string>
 </resources>

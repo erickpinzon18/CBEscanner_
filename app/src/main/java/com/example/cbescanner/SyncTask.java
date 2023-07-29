@@ -1,7 +1,7 @@
 package com.example.cbescanner;
 
 import android.util.Log;
-import android.widget.ProgressBar;
+import android.view.View;
 import android.widget.Toast;
 
 import java.sql.Connection;
@@ -11,7 +11,6 @@ import java.sql.PreparedStatement;
 public class SyncTask implements Runnable {
 
     private MainActivity mainActivity;
-    private ProgressBar pbSinc;
 
     public SyncTask(MainActivity activity) {
         this.mainActivity = activity;
@@ -22,14 +21,15 @@ public class SyncTask implements Runnable {
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mainActivity.setpbSincVisibility(true);
-                mainActivity.changebtnSincState(false);
+                mainActivity.getpbSinc().setVisibility(View.VISIBLE);
+                mainActivity.getBtnSincronizar().setEnabled(false);
             }
         });
 
         //vamos a guardar la lista de articulos escaneados
         //primero nos conectamos a la bd
-        Connection connection = mainActivity.conexionBD();
+        DBConnectionManager dbManager = new DBConnectionManager();
+        Connection connection = dbManager.conexionBD();
         try {
             if (connection != null) {
                 //recorremos el adaptador
@@ -38,7 +38,9 @@ public class SyncTask implements Runnable {
                     String cb = ss.split("-")[0];
                     String cant = ss.split("-")[1];
                     String desc = ss.split("-")[2];
-                    PreparedStatement stm = connection.prepareStatement("insert into producto (codigo, etiqueta, cantidad, fecha_cap, id_usuario) values ('" + cb + "', '" + desc + "', " + cant + ", getdate(),1);");
+                    String stStm = "insert into producto (codigo, etiqueta, cantidad, fecha_cap, id_usuario) values ('" + cb + "', '" + desc + "', " + cant + ", getdate()," + mainActivity.getId_user() + ");";
+                    Log.i("Query: ", stStm);
+                    PreparedStatement stm = connection.prepareStatement(stStm);
                     stm.executeUpdate();
                     Log.i("Producto insertado: ", desc);
                 }
@@ -72,8 +74,8 @@ public class SyncTask implements Runnable {
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mainActivity.setpbSincVisibility(false);
-                mainActivity.changebtnSincState(true);
+                mainActivity.getpbSinc().setVisibility(View.INVISIBLE);
+                mainActivity.getBtnSincronizar().setEnabled(true);
             }
         });
     }
