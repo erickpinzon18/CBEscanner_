@@ -1,6 +1,8 @@
 package com.example.cbescanner;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,9 +11,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+
 public class Login extends AppCompatActivity {
 
     Button btnLogin;
+    Button btnConfig;
     EditText txtUsuario;
     EditText txtContrasena;
     ProgressBar pbLogin;
@@ -23,6 +28,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.login);
 
         btnLogin = findViewById(R.id.btnLogin);
+        btnConfig = findViewById(R.id.btnConfig);
         txtUsuario = findViewById(R.id.txtUsuario);
         txtContrasena = findViewById(R.id.txtContrasena);
         pbLogin = findViewById(R.id.pbLogin);
@@ -38,6 +44,19 @@ public class Login extends AppCompatActivity {
                     new Thread(loginTask).start();
                 } else {
                     Toast.makeText(getApplicationContext(), "Rellena todos los campos", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        btnConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent intent = new Intent(Login.this, Config.class);
+                    Login.this.startActivity(intent);
+                } catch (Exception e) {
+                    Log.e("Error", Objects.requireNonNull(e.getMessage()));
+                    Toast.makeText(getApplicationContext(), "Error al abrir configuración", Toast.LENGTH_LONG).show();
                 }
             }
         });

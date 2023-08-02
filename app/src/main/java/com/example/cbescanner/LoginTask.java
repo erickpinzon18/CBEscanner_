@@ -33,7 +33,7 @@ public class LoginTask implements Runnable {
         });
 
         DBConnectionManager dbManager = new DBConnectionManager();
-        Connection connection = dbManager.conexionBD();
+        Connection connection = dbManager.conexionBD(this.login.getApplicationContext());
         try {
             if (connection != null) {
                 // Validamos el login con la bd

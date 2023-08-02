@@ -29,7 +29,7 @@ public class SyncTask implements Runnable {
         //vamos a guardar la lista de articulos escaneados
         //primero nos conectamos a la bd
         DBConnectionManager dbManager = new DBConnectionManager();
-        Connection connection = dbManager.conexionBD();
+        Connection connection = dbManager.conexionBD(this.mainActivity.getApplicationContext());
         try {
             if (connection != null) {
                 //recorremos el adaptador
