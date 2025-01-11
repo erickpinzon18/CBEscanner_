@@ -38,11 +38,20 @@ public class SyncTask implements Runnable {
                     String cb = ss.split("-")[0];
                     String cant = ss.split("-")[1];
                     String desc = ss.split("-")[2];
-                    String stStm = "insert into producto (codigo, etiqueta, cantidad, fecha_cap, id_usuario) values ('" + cb + "', '" + desc + "', " + cant + ", getdate()," + mainActivity.getId_user() + ");";
+                    String date = ss.split("-")[3];
+                    String id = ss.split("-")[4];
+                    String stStm = "";
+
+                    if (Integer.parseInt(id.trim()) != 0) {
+                        stStm = "UPDATE producto SET codigo = '" + cb + "', etiqueta = '" + desc + "', cantidad = " + cant + ", fecha_cap = '" + date + "', id_usuario = " + mainActivity.getId_user() + " WHERE id = " + Integer.parseInt(id.trim()) + ";";
+                    } else {
+                        stStm = "INSERT INTO producto (codigo, etiqueta, cantidad, fecha_cap, fecha_mod, id_usuario) VALUES ('" + cb + "', '" + desc + "', " + cant + ", '" + date + "', getdate(), " + mainActivity.getId_user() + ");";
+                    }
+
                     Log.i("Query: ", stStm);
                     PreparedStatement stm = connection.prepareStatement(stStm);
                     stm.executeUpdate();
-                    Log.i("Producto insertado: ", desc);
+                    Log.i("Producto insertado o actualizao: ", desc);
                 }
                 mainActivity.getLngList().removeAll(mainActivity.getLngList());
 

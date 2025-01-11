@@ -50,8 +50,8 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="147dp"
+        android:layout_height="54dp"
         android:layout_marginBottom="236dp"
         android:text="@string/iniciar_sesi_n"
         app:layout_constraintBottom_toBottomOf="parent"
